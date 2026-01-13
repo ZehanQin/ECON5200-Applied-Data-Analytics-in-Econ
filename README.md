@@ -1,55 +1,52 @@
 # ECON5200-Applied-Data-Analytics-in-Econ
 # 📊 Economic Data Science Portfolio
 
-Welcome! This repository documents my academic and applied work for **ECON 5200: Applied Data Analytics in Economics**.  
-It reflects my journey in integrating **economic reasoning**, **causal inference**, and **modern data science tools** to analyze real-world economic problems.
+**Bridging Economic Theory and Modern Data Science**
 
 ---
 
-## 👤 About Me
+## 👋 About This Portfolio
 
-I am an **undergraduate economics student** aspiring to pursue roles in **Data Analysis** and **Tech Economics**.  
-My academic focus lies in translating **traditional economic theory** into **data-driven insights**, using statistical modeling and machine learning techniques.
+Welcome! I'm an undergraduate economics student building expertise at the intersection of causal inference and predictive analytics. This repository showcases my coursework from **ECON 5200: Applied Data Analytics in Economics**, where I'm learning to scale foundational statistical methods using machine learning techniques.
 
-This portfolio is designed to demonstrate my ability to:
-- Think critically about economic mechanisms  
-- Apply rigorous empirical methods  
-- Scale classical econometric ideas using modern computational tools  
+### The Approach
 
----
+This course follows a *Concept Extension* philosophy: we start with core econometric tools—like ordinary least squares regression—and extend them into the machine learning domain with algorithms like Lasso and Ridge regression. The goal is to understand not just *how* to use these tools, but *when* and *why* each approach is appropriate for different economic questions.
 
-## 📂 About This Portfolio
-
-This repository hosts my **coursework, labs, and applied projects** for ECON 5200.
-
-### Course Philosophy: Concept Extension
-The course follows a *Concept Extension* approach:
-- We begin with **foundational statistical and econometric concepts** (e.g., OLS regression, bias–variance tradeoff)
-- Then extend them using **machine learning algorithms** (e.g., Lasso, cross-validation, regularization)
-
-Through this process, I am learning how to:
-- Combine **causal inference** with **predictive analytics**
-- Understand the tradeoffs between interpretability and performance
-- Apply economic intuition when evaluating data-driven models
+I'm particularly interested in:
+- Applying predictive models to economic forecasting problems
+- Using causal inference methods to evaluate policy impacts
+- Translating complex quantitative findings into actionable insights
 
 ---
 
-## 🧠 Tech Stack
+## 🛠️ Tech Stack
 
-The tools and frameworks used throughout this repository include:
-
-- 🐍 **Python** — core programming language for analysis  
-- 🧮 **Pandas** — data manipulation and cleaning  
-- 📈 **Statsmodels** — econometric modeling and statistical inference  
-- 🤖 **Scikit-Learn** — machine learning and model evaluation  
-- ☁️ **Google Colab** — cloud-based development and experimentation  
+| Tool | Purpose |
+|------|---------|
+| ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white) | Primary programming language |
+| ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white) | Data manipulation and analysis |
+| ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat&logo=scikit-learn&logoColor=white) | Machine learning implementation |
+| ![Statsmodels](https://img.shields.io/badge/Statsmodels-4B8BBE?style=flat) | Econometric modeling and inference |
+| ![Google Colab](https://img.shields.io/badge/Google%20Colab-F9AB00?style=flat&logo=googlecolab&logoColor=white) | Cloud-based development environment |
 
 ---
 
-## 🚀 Goals of This Repository
+## 📁 Repository Structure
 
-- Build a strong foundation in **applied economic data analysis**
-- Demonstrate practical skills in **statistical modeling and ML**
-- Develop a portfolio that reflects **clarity, rigor, and curiosity**
+```
+├── labs/           # Hands-on coding exercises
+├── assignments/    # Course problem sets
+├── projects/       # Extended analysis projects
+└── notes/          # Concept summaries and documentation
+```
 
-Thank you for visiting — I’m always eager to learn, improve, and explore new ways data can inform economic decision-making.
+---
+
+## 🎯 Career Interests
+
+I'm seeking opportunities in **Data Analysis** and **Tech Economics** where I can apply quantitative methods to real-world business and policy questions. If you're interested in connecting, feel free to reach out!
+
+---
+
+*This portfolio is a work in progress as I continue developing my skills throughout the course.*
