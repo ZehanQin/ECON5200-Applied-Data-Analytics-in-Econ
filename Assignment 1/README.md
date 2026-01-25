@@ -33,7 +33,7 @@ When policymakers cite "3% inflation," they're describing an economic reality th
 
 ```python
 from fredapi import Fred
-fred = Fred(api_key='YOUR_API_KEY')
+fred = Fred(api_key='*')
 
 # Data pulled from Federal Reserve Economic Data
 official_cpi = fred.get_series('CPIAUCSL')        # National CPI
@@ -142,8 +142,8 @@ cd student-inflation-analysis
 # Install dependencies
 pip install -r requirements.txt
 
-# Add your FRED API key
-export FRED_API_KEY='your_api_key_here'
+# Add FRED API key
+export FRED_API_KEY='*'
 
 # Run analysis
 python main.py
