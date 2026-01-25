@@ -1,209 +1,140 @@
-# 📊 The Cost of Living Crisis: A Data-Driven Analysis
+# The Cost of Living Crisis: A Data-Driven Analysis
 
-[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![FRED API](https://img.shields.io/badge/Data-FRED%20API-green.svg)](https://fred.stlouisfed.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-> **A macroeconomic analysis revealing how official inflation metrics systematically understate the true cost burden on college students.**
-
-**Author:** Zehan Qin | **Course:** ECON 5200 | **Date:** January 2026
+**Why the "Average" CPI Fails Students**
 
 ---
 
-## 🎯 The Problem
+## 📌 The Problem
 
-The Consumer Price Index (CPI) is the gold standard for measuring inflation—but **whose inflation?**
+The Consumer Price Index (CPI) is the headline number used to measure inflation—but whose inflation is it actually measuring?
 
-The BLS constructs the CPI using a market basket weighted toward typical American household consumption. For college students, this basket is fundamentally misaligned:
+As a student, I noticed my lived expenses were rising faster than the 3-4% annual inflation reported in the news. Tuition keeps climbing. Rent is skyrocketing. Even a Chipotle burrito costs 53% more than it did in 2016. Yet policymakers and economists point to the "official" CPI as if it represents everyone equally.
 
-| What CPI Measures | What Students Actually Pay |
-|-------------------|---------------------------|
-| Mortgages | Rent in college towns |
-| New vehicles | Tuition & fees |
-| General groceries | Dining out / meal plans |
-| Cable TV | Streaming subscriptions |
+**It doesn't.**
 
-When policymakers cite "3% inflation," they're describing an economic reality that **doesn't exist** for 20 million American students.
+The CPI is a weighted average based on the spending habits of a typical urban household. But students aren't typical—we spend disproportionately on tuition, rent, and food away from home, categories that have dramatically outpaced headline inflation.
 
 ---
 
 ## 🔬 Methodology
 
-### Data Sources (FRED API)
+### Data Sources
+- **FRED API** (Federal Reserve Economic Data) for official price indices
+- Manual price tracking for student-specific items
 
-```python
-from fredapi import Fred
-fred = Fred(api_key='*')
+### Technical Approach
+- **Language:** Python
+- **Libraries:** `pandas`, `matplotlib`, `fredapi`
+- **Index Theory:** Laspeyres Price Index methodology
 
-# Data pulled from Federal Reserve Economic Data
-official_cpi = fred.get_series('CPIAUCSL')        # National CPI
-tuition = fred.get_series('CUSR0000SEEB')         # College Tuition & Fees
-rent = fred.get_series('CUSR0000SEHA')            # Rent of Primary Residence
-food_away = fred.get_series('CUSR0000SEFV')       # Food Away from Home
-streaming = fred.get_series('CUSR0000SERA02')     # Cable/Streaming Services
-boston_cpi = fred.get_series('CUURA103SA0')       # Boston Metro CPI
-```
+### The Laspeyres Approach
 
-### Student Price Index (SPI) Construction
+I constructed a custom **Student Price Index (SPI)** using fixed base-period weights that reflect actual student spending patterns:
 
-I built a **Laspeyres fixed-weight index** using student-specific expenditure weights:
+| Category | Weight | FRED Series |
+|----------|--------|-------------|
+| Tuition & Fees | 45% | CUSR0000SEEB |
+| Rent | 25% | CUSR0000SEHA |
+| Food Away from Home | 25% | CUSR0000SEFV |
+| Streaming/Cable | 5% | CUSR0000SERA02 |
 
-```
-SPI = (0.45 × Tuition) + (0.25 × Rent) + (0.25 × Food Away) + (0.05 × Streaming)
-```
-
-| Component | FRED Code | Weight | Rationale |
-|-----------|-----------|--------|-----------|
-| Tuition & Fees | CUSR0000SEEB | 45% | Dominant student expense |
-| Rent | CUSR0000SEHA | 25% | Housing in college markets |
-| Food Away from Home | CUSR0000SEFV | 25% | Dining out / meal plans |
-| Streaming Services | CUSR0000SERA02 | 5% | Digital entertainment |
-
-### Critical Step: Base Year Normalization
-
-All series re-indexed to **January 2016 = 100** for valid comparison:
-
-```python
-base = df.loc['2016-01-01':].iloc[0]
-df_index = (df / base) * 100
-```
-
-> ⚠️ **Why this matters:** Raw BLS indices use different base periods (1982-84, 2002, etc.). Comparing them directly is a "data crime" that produces misleading conclusions.
+All indices were normalized to a common base year (January 2016 = 100) to enable valid comparisons—a critical step that many analyses overlook.
 
 ---
 
-## 📈 Key Findings
+## 📊 Key Findings
 
-### Finding 1: The Student-National Inflation Gap
+### The Divergence is Real
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  MY ANALYSIS REVEALS A ~20 PERCENTAGE POINT DIVERGENCE  │
-│  BETWEEN STUDENT COSTS AND NATIONAL INFLATION           │
-└─────────────────────────────────────────────────────────┘
-```
+> **My analysis reveals a 40.4% cumulative increase in student costs since 2016, compared to just 37.2% for the national CPI—a 3.2 percentage point gap that compounds year over year.**
 
-| Index | Latest Value | Cumulative Growth (2016-2024) |
-|-------|--------------|-------------------------------|
-| National CPI | ~123 | +23% |
-| Boston CPI | ~126 | +26% |
-| **Student SPI** | **~143** | **+43%** |
+### Individual Category Inflation (2016-2024)
 
-**Students experience nearly 2x the inflation rate** compared to headline CPI.
+| Item | Inflation Rate |
+|------|---------------|
+| Chipotle Burrito | +53.33% |
+| Rent (1-Bedroom) | +50.00% |
+| Tuition | +28.89% |
+| Spotify | +20.02% |
 
-### Finding 2: Component Breakdown
+### Cumulative Growth Summary (Jan 2016 – Present)
 
-```
-Chipotle Burrito:  ████████████████████████████ 53.33%
-Rent (1 Bed):      █████████████████████████    50.00%
-Tuition:           ██████████████               28.89%
-Spotify:           ██████████                   20.02%
-```
+| Index | Value | Growth |
+|-------|-------|--------|
+| Student SPI | 140.4 | **+40.4%** |
+| National CPI | 137.2 | +37.2% |
+| Boston CPI | 135.3 | +35.3% |
 
-### Finding 3: Regional Amplification (Boston)
+### Visual Evidence
 
-The Boston-Cambridge-Newton metro CPI consistently exceeds national averages, creating a **compounding penalty** for students in high-cost educational hubs.
+The divergence between the Student SPI and Official CPI becomes strikingly clear when visualized. The shaded region in the comparison chart represents the "hidden inflation" students experience but that never makes the headlines.
 
 ---
 
-## 📊 Visualizations
+## 🚫 A Note on Data Integrity
 
-### 1. Normalized Cost of Living Series
-![Cost of Living](images/cost_of_living_normalized.png)
-*Five components normalized to Jan 2016 = 100*
-
-### 2. Student SPI vs Official CPI
-![SPI vs CPI](images/spi_vs_cpi_comparison.png)
-*Shaded region shows the growing divergence*
-
-### 3. Regional Disparity Analysis
-![Regional Analysis](images/regional_disparity_analysis.png)
-*National CPI (grey) vs Boston CPI (blue) vs Student SPI (red)*
+Comparing raw indices with different base years is what I call a **"data crime."** Each index series uses a different reference point (1982 vs 2002, for example), making direct comparisons meaningless. The solution is normalization—setting a common base year so all series start at 100 and changes can be compared apples-to-apples.
 
 ---
 
-## 🛠️ Technical Stack
+## 💡 Implications
+
+1. **Policy Blind Spots:** Cost-of-living adjustments (COLAs) tied to headline CPI systematically undercompensate students and young workers.
+
+2. **Financial Planning:** Students budgeting based on reported inflation rates will consistently underestimate their true cost increases.
+
+3. **Regional Variation:** Even Boston's CPI (+35.3%) understates what students in the area actually experience (+40.4%).
+
+---
+
+## 🛠️ Repository Structure
 
 ```
-python >= 3.12
-├── fredapi          # Federal Reserve data access
-├── pandas           # Data manipulation & time series
-├── matplotlib       # Visualization
-└── numpy            # Numerical operations
+├── notebooks/
+│   └── cost_of_living_analysis.ipynb
+├── data/
+│   └── student_basket.csv
+├── visualizations/
+│   ├── cost_of_living_normalized.png
+│   ├── student_spi_vs_cpi.png
+│   └── regional_disparity.png
+└── README.md
 ```
 
-### Installation
+---
+
+## 🚀 How to Reproduce
 
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/student-inflation-analysis.git
-cd student-inflation-analysis
+# Clone the repository
+git clone https://github.com/[username]/cost-of-living-analysis.git
 
 # Install dependencies
-pip install -r requirements.txt
+pip install pandas matplotlib fredapi
 
-# Add FRED API key
-export FRED_API_KEY='*'
+# Add your FRED API key
+# Get one free at: https://fred.stlouisfed.org/docs/api/api_key.html
 
-# Run analysis
-python main.py
+# Run the notebook
+jupyter notebook notebooks/cost_of_living_analysis.ipynb
 ```
 
 ---
 
-## 💡 Policy Implications
+## 📚 References
 
-| Issue | Current Practice | Recommended Change |
-|-------|------------------|-------------------|
-| Financial Aid | Indexed to headline CPI | Index to education-specific inflation |
-| Student Loan Rates | Pegged to general inflation | Account for true student cost burden |
-| Tuition Communications | "Below-inflation increases" | Benchmark against student-relevant costs |
+- Bureau of Labor Statistics. *Consumer Price Index*.
+- Federal Reserve Bank of St. Louis. *FRED Economic Data*.
+- Laspeyres, E. (1871). Price index methodology.
 
 ---
 
-## 📁 Repository Structure
+## 👤 Author
 
-```
-student-inflation-analysis/
-│
-├── data/
-│   └── raw/                    # Downloaded FRED data
-│
-├── notebooks/
-│   └── analysis.ipynb          # Full Jupyter notebook
-│
-├── src/
-│   ├── data_acquisition.py     # FRED API calls
-│   ├── index_construction.py   # SPI calculation
-│   └── visualization.py        # Plot generation
-│
-├── images/                     # Generated figures
-├── requirements.txt
-├── README.md
-└── LICENSE
-```
+**Zehan Qin**  
+Economics 5200 | Quantitative Methods  
+*January 2026*
 
 ---
 
-## 🎓 Skills Demonstrated
-
-- **API Integration** — FRED API authentication & time-series extraction
-- **Data Wrangling** — Pandas operations, resampling, forward-fill imputation
-- **Index Number Theory** — Laspeyres weighting, base-year normalization
-- **Data Visualization** — Multi-series plots, annotations, professional styling
-- **Economic Analysis** — CPI methodology critique, demographic segmentation
-
----
-
-## 📬 Contact
-
-**Zehan Qin**
-
-[![Email](https://img.shields.io/badge/Email-Contact-red.svg)](mailto:your.email@example.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue.svg)](https://linkedin.com/in/yourprofile)
-
----
-
-<p align="center">
-  <i>If this analysis helped you, consider giving it a ⭐</i>
-</p>
+*If this analysis resonated with you, consider starring ⭐ the repository.*
