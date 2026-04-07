@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/Users/jooliofoolio/Desktop/大学NEU/课程/大三下学期(Spring)/ECON5200 Applied Data Analytics in Economics/Github Local/Local Project/Econ5200/Econ5200Class/venv/bin/python3.12" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
