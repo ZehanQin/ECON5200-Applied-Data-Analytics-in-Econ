@@ -188,4 +188,41 @@ def block_bootstrap_trend(
             end = min(i + block_size, n)
             resampled[i:end] = block[:end - i]
             i = end
-        synth = pd.Se
+        synth = pd.Series(orig_trend + orig_seas + resampled, index=work.index)
+        try:
+            synth.index.freq = work.index.freq
+        except (AttributeError, ValueError):
+            pass
+        boot[b] = STL(synth, period=period, robust=robust).fit().trend.values
+
+    lo, hi = np.percentile(boot, [ci[0], ci[1]], axis=0)
+    return {
+        'trend': pd.Series(orig_trend, index=work.index),
+        'lower': pd.Series(lo, index=work.index),
+        'upper': pd.Series(hi, index=work.index),
+        'boot_trends': boot,
+    }
+
+
+# --- Self-test block ---
+if __name__ == '__main__':
+    print('decompose.py loaded successfully.')
+    print('Functions: run_stl, run_mstl, test_stationarity, detect_breaks, block_bootstrap_trend')
+
+    np.random.seed(42)
+    dates = pd.date_range('2000-01-01', periods=200, freq='MS')
+    trend = np.linspace(100, 200, 200)
+    seasonal = 10 * np.sin(2 * np.pi * np.arange(200) / 12)
+    noise = np.random.normal(0, 3, 200)
+    test_series = pd.Series(trend + seasonal + noise, index=dates)
+
+    result = run_stl(test_series, period=12, log_transform=False)
+    print(f'\nSTL residual std: {result.resid.std():.2f} (expected ~3.0)')
+
+    verdict = test_stationarity(test_series)
+    print(f'Stationarity verdict: {verdict["verdict"]}')
+
+    breaks = detect_breaks(test_series, pen=10)
+    print(f'Detected breaks: {len(breaks)}')
+
+    print('\nAll module tests passed.')
